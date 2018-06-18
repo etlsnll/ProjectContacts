@@ -1,0 +1,10 @@
+﻿td.plTitle {
+    max-width:300px;
+}
+tr.resultsRow:hover {
+    background-color: lightgray;
+}
+tr.resultsRow button {
+    height: 25px;
+    line-height: 11px;
+}

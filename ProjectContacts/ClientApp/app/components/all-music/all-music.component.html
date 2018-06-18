@@ -1,0 +1,37 @@
+﻿<h1>All Music</h1>
+
+<p *ngIf="!tracks"><em>Loading...</em></p>
+
+<table class='table' *ngIf="tracks">
+    <thead>
+        <tr>
+            <th>Album</th>
+            <th>Year</th>
+            <th>Artist</th>
+            <th>Track #</th>
+            <th>Title</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let track of tracks">
+            <td hidden>{{ track.trackId }}</td>
+            <td>{{ track.album }}</td>
+            <td>{{ track.year === null ? "" : track.year }}</td>
+            <td>{{ track.artist }}</td>
+            <td>{{ track.trackNum === null ? "" : track.trackNum }}</td>
+            <td class="titleCol">{{ track.title }}</td>
+        </tr>
+    </tbody>
+
+    <caption>Total tracks: {{totalTracks}}</caption>
+    
+</table>
+<div>
+    <app-pager [page]="p" 
+               [totalPages]="totalPages"
+               [pageSize]="pageSize"
+               [pageSizes]="pageSizes"
+               (changePage)="newPage($event)"
+               (newPageSize)="changePageSize($event)">
+    </app-pager>
+</div>

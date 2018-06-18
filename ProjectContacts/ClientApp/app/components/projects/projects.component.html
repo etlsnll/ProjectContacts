@@ -1,0 +1,30 @@
+﻿<h1>All Projects</h1>
+
+<p *ngIf="!projects"><em>Loading...</em></p>
+
+<div class="projectsContainer">
+    <table class='table' *ngIf="projects">
+        <thead>
+            <tr>
+                <th>Title</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let pr of projects" class="resultsRow">
+                <td hidden>{{ pr.projectId }}</td>
+                <td class="prTitle"><a href="/project/{{pr.projectId}}">{{ pr.title }}</a></td>
+                <td class="deleteCol"><button class="delete btn btn-success" title="Delete" (click)="delete(pr)">Delete</button></td>
+            </tr>
+        </tbody>
+
+        <caption>Total projects: {{totalProjects}}</caption>
+
+    </table>
+    <app-pager [page]="p"
+               [totalPages]="totalPages"
+               [pageSize]="pageSize"
+               [pageSizes]="pageSizes"
+               (changePage)="newPage($event)"
+               (newPageSize)="changePageSize($event)">
+    </app-pager>
+</div>

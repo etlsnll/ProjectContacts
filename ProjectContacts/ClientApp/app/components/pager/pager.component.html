@@ -1,0 +1,16 @@
+﻿<nav>
+    <ul class="pager">
+        <li [class.disabled]="page===1">
+            <a (click)="prev()">Previous</a>
+        </li>
+        <li>{{page}} ({{totalPages}})</li>
+        <li [class.disabled]="page===totalPages">
+            <a (click)="next()">Next</a>
+        </li>
+        <li>Page size: 
+            <select (change)="changePageSize($event.target.value)">
+                <option *ngFor="let s of pageSizes" [selected]="s==pageSize" >{{s}}</option>
+            </select>
+        </li>
+    </ul>
+</nav>

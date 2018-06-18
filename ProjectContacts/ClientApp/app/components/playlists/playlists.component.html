@@ -1,0 +1,32 @@
+﻿<h1>All Playlists</h1>
+
+<p *ngIf="!playlists"><em>Loading...</em></p>
+
+<div class="playListsContainer">
+    <table class='table' *ngIf="playlists">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Num Tracks</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let pl of playlists" class="resultsRow">
+                <td hidden>{{ pl.id }}</td>
+                <td class="plTitle"><a href="/playlist/{{pl.id}}">{{ pl.name }}</a></td>
+                <td class="numTracks">{{ pl.numTracks }}</td>
+                <td class="deleteCol"><button class="delete btn btn-success" title="Delete" (click)="delete(pl)">Delete</button></td>
+            </tr>
+        </tbody>
+
+        <caption>Total playlists: {{totalPlaylists}}</caption>
+
+    </table>
+    <app-pager [page]="p"
+               [totalPages]="totalPages"
+               [pageSize]="pageSize"
+               [pageSizes]="pageSizes"
+               (changePage)="newPage($event)"
+               (newPageSize)="changePageSize($event)">
+    </app-pager>
+</div>
