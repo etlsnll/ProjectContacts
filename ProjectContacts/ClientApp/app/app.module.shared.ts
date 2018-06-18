@@ -13,6 +13,7 @@ import { AddPlaylistComponent } from './components/add-playlist/add-playlist.com
 import { PlaylistsComponent } from './components/playlists/playlists.component';
 import { PlaylistComponent } from './components/playlist/playlist.component';
 import { ProjectsComponent } from './components/projects/projects.component';
+import { ContactsComponent } from './components/contacts/contacts.component';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import { ProjectsComponent } from './components/projects/projects.component';
         AddPlaylistComponent,
         PlaylistsComponent,
         PlaylistComponent,
-        ProjectsComponent
+        ProjectsComponent,
+        ContactsComponent
     ],
     imports: [
         CommonModule,
@@ -40,6 +42,7 @@ import { ProjectsComponent } from './components/projects/projects.component';
             { path: 'playlists', component: PlaylistsComponent },
             { path: 'playlist/:id', component: PlaylistComponent },
             { path: 'projects', component: ProjectsComponent },
+            { path: 'contacts', component: ContactsComponent },
             { path: '**', redirectTo: 'home' }
         ])
     ]

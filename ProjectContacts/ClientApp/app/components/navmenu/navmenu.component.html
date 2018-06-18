@@ -37,6 +37,11 @@
                         <span class='glyphicon glyphicon-th-list'></span> Projects
                     </a>
                 </li>
+                <li [routerLinkActive]="['link-active']">
+                    <a [routerLink]="['/contacts']" (click)="collapseMenu()">
+                        <span class='glyphicon glyphicon-th-list'></span> Contacts
+                    </a>
+                </li>
             </ul>
         </div>
     </div>

@@ -29,6 +29,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\app\components\contact.ts" />
+    <None Remove="ClientApp\app\components\shared\contact.service.ts" />
     <None Remove="ClientApp\app\components\shared\project.service.ts" />
     <None Remove="ClientApp\app\project.ts" />
   </ItemGroup>
@@ -43,6 +45,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\app\components\shared\contact.service.ts" />
+    <TypeScriptCompile Include="ClientApp\app\contact.ts" />
     <TypeScriptCompile Include="ClientApp\app\components\shared\project.service.ts" />
     <TypeScriptCompile Include="ClientApp\app\project.ts" />
   </ItemGroup>

@@ -1,7 +1,7 @@
 ﻿import { Injectable, Inject } from '@angular/core';
 import { Headers, Http, URLSearchParams } from '@angular/http';
 import { Observable } from "rxjs";
-import { Project } from '../../project'; // Import the model
+import { Contact } from '../../contact'; // Import the model
 
 const httpOptions = {
     headers: new Headers({
@@ -10,7 +10,7 @@ const httpOptions = {
 };
 
 @Injectable()
-export class ProjectService {
+export class ContactService {
 
     private url: string;
     private http: Http;
@@ -33,19 +33,19 @@ export class ProjectService {
     //    //.subscribe(res => console.log(res)); // Note - must subscribe to the response even if not interested for POST to work                       
     //}
 
-    countProjects() {
-        return this.http.get(this.url + 'api/Project/Count')
+    countContacts() {
+        return this.http.get(this.url + 'api/Contact/Count')
             .catch(this.handleErrorObservable)
             .map(response => response.json() as number);
     }
 
-    getProjects(pageNum: number, pageSize: number) {
+    getContacts(pageNum: number, pageSize: number) {
         var search = new URLSearchParams();
         search.set('pageNum', pageNum.toString()); // Add URL query param
         search.set('pageSize', pageSize.toString()); // Add URL query param
-        return this.http.get(this.url + 'api/Project/List', { search: search })
+        return this.http.get(this.url + 'api/Contact/List', { search: search })
             .catch(this.handleErrorObservable)
-            .map(response => response.json() as Project[]);
+            .map(response => response.json() as Contact[]);
     }
 
     //getPlaylist(id: number) {
@@ -83,8 +83,8 @@ export class ProjectService {
     //        .map(response => response.json() as Track[]);
     //}
 
-    deleteProject(projectId: number) {
-        return this.http.delete(this.url + 'api/Project/Delete/' + projectId.toString())
+    deleteContact(contactId: number) {
+        return this.http.delete(this.url + 'api/Contact/Delete/' + contactId.toString())
             .catch(this.handleErrorObservable)
             .map(response => response.json() as boolean);
     }

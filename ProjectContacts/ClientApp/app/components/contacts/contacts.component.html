@@ -1,0 +1,34 @@
+﻿<h1>All Contacts</h1>
+
+<p *ngIf="!contacts"><em>Loading...</em></p>
+
+<div class="contactsContainer">
+    <table class='table' *ngIf="contacts">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let c of contacts" class="resultsRow">
+                <td hidden>{{ c.contactId }}</td>
+                <td>{{ c.name }}</td>
+                <td>{{ c.email }}</td>
+                <td>{{ c.phone }}</td>
+                <td><button class="delete btn btn-success" title="Delete" (click)="delete(c)">Delete</button></td>
+            </tr>
+        </tbody>
+
+        <caption>Total contacts: {{totalContacts}}</caption>
+
+    </table>
+    <app-pager [page]="p"
+               [totalPages]="totalPages"
+               [pageSize]="pageSize"
+               [pageSizes]="pageSizes"
+               (changePage)="newPage($event)"
+               (newPageSize)="changePageSize($event)">
+    </app-pager>
+</div>
