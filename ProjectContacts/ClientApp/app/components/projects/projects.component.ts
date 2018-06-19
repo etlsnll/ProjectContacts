@@ -53,7 +53,7 @@ export class ProjectsComponent implements AfterViewInit {
         this.projectService.countProjects()
             .subscribe(data => {
                 this.totalProjects = data;
-                this.totalPages = Math.floor(this.totalProjects / this.pageSize) + 1;
+                this.totalPages = Math.floor(this.totalProjects / this.pageSize) + (this.totalProjects % this.pageSize !== 0 ? 1 : 0);
             });
 
         //Get current page of results:
@@ -64,8 +64,13 @@ export class ProjectsComponent implements AfterViewInit {
     public delete(project: Project): void {
         this.projectService.deleteProject(project.projectId)
             .subscribe(success => {
-                if (success) // Refresh current page:
+                if (success) {
+                    // Move to previous page (if possible) if we just deleted only item on this page:
+                    if (this.projects.length === 1 && this.currentPage > 1)
+                        this.currentPage--;
+                    // Refresh current page:
                     this.getProjects();
+                }
             });
     }
 

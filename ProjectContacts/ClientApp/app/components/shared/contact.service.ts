@@ -89,6 +89,12 @@ export class ContactService {
             .map(response => response.json() as boolean);
     }
 
+    addContact(contact: Contact) {
+        return this.http.post(this.url + 'api/Contact/Add', contact)
+            .catch(this.handleErrorObservable)
+            .map(response => response.json() as number);
+    }
+
     //playListMoveTrackUp(playlistId: number, t: Track) {
     //    return this.http.put(this.url + 'api/MusicLibrary/PlayListMoveTrackUp/' + playlistId.toString(), t)
     //        .catch(this.handleErrorObservable)

@@ -47,11 +47,11 @@ namespace ProjectContacts.Repository
 
         public int AddProject(Project project)
         {
+            project.Created = DateTime.Now; // Should really use UtcNow here and adjust to system timezone after read from DB if had more time
             _dbContext.Projects.Add(project);
             _dbContext.SaveChanges();
 
             return project.ProjectId;
         }
-        //Created = DateTime.Now; // Should really use UtcNow here and adjust to system timezone after read from DB if had more time
     }
 }

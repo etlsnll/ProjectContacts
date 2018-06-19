@@ -7,3 +7,21 @@ tr.resultsRow button {
 tr.resultsRow:hover {
     background-color: lightgray;
 }
+
+.ng-valid[required], .ng-valid.required {
+    border-left: 5px solid #42A948; /* green */
+}
+
+.ng-invalid:not(form) {
+    border-left: 5px solid #a94442; /* red */
+}
+
+.form-group {
+    max-width: 400px;
+}
+
+p.confirmAddContact {
+    color: red;
+    margin-left: 200px;
+    padding-top: 20px;
+}

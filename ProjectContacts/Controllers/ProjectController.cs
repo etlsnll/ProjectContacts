@@ -75,7 +75,7 @@ namespace ProjectContacts.Controllers
         public int Add([FromBody]Project project)
         {
             if (String.IsNullOrWhiteSpace(project.Title))
-                throw new ArgumentException("Projet must have a title", "Title");
+                throw new ArgumentException("Project must have a title", "Title");
 
             try
             {

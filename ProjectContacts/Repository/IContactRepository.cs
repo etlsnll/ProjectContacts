@@ -10,5 +10,7 @@ namespace ProjectContacts.Repository
         IEnumerable<Contact> GetContacts(int pageNum, int pageSize);
 
         bool DeleteContact(int id);
+
+        int AddContact(Contact contact);
     }
 }

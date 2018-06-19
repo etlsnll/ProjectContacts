@@ -65,7 +65,34 @@ namespace ProjectContacts.Controllers
                 return NotFound();
             }
 
+            _logger.LogInformation($"Contact deleted - ID: {id}", id);
+
             return Ok(result);
+        }
+
+
+        // GET: api/Contact/Add
+        [HttpPost("[action]")]
+        public int Add([FromBody]Contact contact)
+        {
+            if (String.IsNullOrWhiteSpace(contact.Name))
+                throw new ArgumentException("Contact must have a title", "Name");
+            if (String.IsNullOrWhiteSpace(contact.Email))
+                throw new ArgumentException("Contact must have an email", "Email");
+            if (String.IsNullOrWhiteSpace(contact.Phone))
+                throw new ArgumentException("Contact must have a phone number", "Phone");
+
+            try
+            {
+                var id = _contactRepository.AddContact(contact);
+                _logger.LogInformation("Contact added: {0}, ID: {1}", contact.Name, contact.ContactId);
+                return id;
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Error adding contact: " + contact.Name);
+                return 0;
+            }
         }
     }
 }

@@ -45,5 +45,13 @@ namespace ProjectContacts.Repository
             }
             return false;
         }
+
+        public int AddContact(Contact contact)
+        {
+            _dbContext.Contacts.Add(contact);
+            _dbContext.SaveChanges();
+
+            return contact.ContactId;
+        }
     }
 }
