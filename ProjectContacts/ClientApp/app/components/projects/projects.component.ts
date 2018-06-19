@@ -1,4 +1,4 @@
-﻿import { Component, Inject, AfterViewInit } from '@angular/core';
+﻿import { Component, Inject, AfterViewInit, OnDestroy } from '@angular/core';
 import { ProjectService } from '../shared/project.service';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
@@ -11,7 +11,7 @@ import { Project } from '../../project'; // Import the model
     providers: [ProjectService]
 })
 /** projects component*/
-export class ProjectsComponent implements AfterViewInit {
+export class ProjectsComponent implements AfterViewInit, OnDestroy {
 
     model = new Project(0, "", new Date());
 
@@ -95,5 +95,11 @@ export class ProjectsComponent implements AfterViewInit {
             // Hide element from view after timeout
             this.showConfirm = false;
         });
+    }
+
+    public ngOnDestroy() {
+        if (this.subscription && this.subscription instanceof Subscription) {
+            this.subscription.unsubscribe();
+        }
     }
 }

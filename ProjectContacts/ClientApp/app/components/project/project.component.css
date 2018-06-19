@@ -9,10 +9,10 @@ input.prTitle {
 
 form.prForm {
     display: inline-flex;
-    margin-top: 20px;
+    /*margin-top: 10px;*/
 }
 
-button.prUpdate {
+button.prUpdate, button.btn-info {
     margin-left: 10px;
     height: 34px;
 }
@@ -36,4 +36,53 @@ table.prTracks button {
     border-color: #4cae4c;
     border: 1px solid transparent;
     border-radius: 4px;
+}
+
+form.prForm input {
+    display: inline-flex;
+}
+
+input.prSearch {
+    width: 180px;
+    margin-bottom: 5px;
+}
+
+div.prFormSrchFilter {
+    width: 300px;
+    display: inline-flex;
+}
+
+    div.prFormSrchFilter label {
+        width: 100px;
+        padding-top: 5px;
+        text-align: right;
+        display: block;
+        margin-right: 10px;
+    }
+
+div.srchCont {
+    clear: both;
+    width: 80%;
+}
+
+td.titleCol {
+    max-width: 250px;
+    min-width: 100px;
+}
+
+div.srchResults {
+    width: 80%
+}
+
+tr.srchResultsRow:hover {
+    background-color: lightgray;
+}
+
+tr.srchResultsRow > td {
+    padding: 3px;
+}
+
+tr.srchResultsRow button {
+    height: 25px;
+    line-height: 11px;
 }

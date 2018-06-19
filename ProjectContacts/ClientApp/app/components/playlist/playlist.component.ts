@@ -15,7 +15,7 @@ import { forEach } from '@angular/router/src/utils/collection';
 })
     
 /** playlist component*/
-export class PlaylistComponent implements OnInit {
+export class PlaylistComponent implements OnInit, OnDestroy {
 
     model = new PlaylistDetails(0, "Unknown", 0, new Array<Track>());
     id: number = 0;

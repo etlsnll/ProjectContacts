@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 using ProjectContacts.Models;
 
 namespace ProjectContacts.Repository
@@ -84,6 +85,42 @@ namespace ProjectContacts.Repository
                 _dbContext.SaveChanges();
 
                 return LoadProject(id, pr);
+            }
+            return null;
+        }
+
+        public IEnumerable<Contact> SearchContacts(int id, string srchTerm, int max)
+        {
+            var pr = _dbContext.Projects.FirstOrDefault(x => x.ProjectId == id);
+            if (pr != null)
+            {
+                var currentParticipants = _dbContext.ProjectContacts.Where(x => x.ProjectId == id).Select(x => x.ContactId);
+                var result = _dbContext.Contacts
+                               .Where(c => String.IsNullOrEmpty(srchTerm) || EF.Functions.Like(c.Name, "%" + srchTerm + "%"))
+                               .Where(c => !currentParticipants.Contains(c.ContactId)) // Don't get ones we already have!
+                               .OrderBy(c => c.Name)
+                               .Take(max);
+                return result;
+            }
+            return null;
+        }
+
+        public IEnumerable<Contact> AddParticipant(int id, int contactId)
+        {
+            var pr = _dbContext.Projects.FirstOrDefault(x => x.ProjectId == id);
+            if (pr != null)
+            {
+                var currentParticipants = _dbContext.ProjectContacts.Where(x => x.ProjectId == id);
+                if (!currentParticipants.Any(x => x.ContactId == contactId))
+                {
+                    // Add to list if not already there:
+                    _dbContext.ProjectContacts.Add(new ProjectContact { ProjectId = id, ContactId = contactId });
+                    _dbContext.SaveChanges();
+                }
+
+                return _dbContext.ProjectContacts.Where(x => x.ProjectId == id)
+                                                 .Select(x => x.Contact)
+                                                 .OrderBy(x => x.Name);
             }
             return null;
         }

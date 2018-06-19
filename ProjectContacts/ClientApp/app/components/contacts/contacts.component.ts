@@ -1,4 +1,4 @@
-﻿import { Component, Inject, AfterViewInit } from '@angular/core';
+﻿import { Component, Inject, AfterViewInit, OnDestroy } from '@angular/core';
 import { ContactService } from '../shared/contact.service';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
@@ -11,7 +11,7 @@ import { Contact } from '../../contact'; // Import the model
     providers: [ContactService]
 })
 /** contacts component*/
-export class ContactsComponent implements AfterViewInit {
+export class ContactsComponent implements AfterViewInit, OnDestroy {
 
     model = new Contact(0, "", "", "");
 
@@ -95,5 +95,11 @@ export class ContactsComponent implements AfterViewInit {
             // Hide element from view after timeout
             this.showConfirm = false;
         });
+    }
+
+    public ngOnDestroy() {
+        if (this.subscription && this.subscription instanceof Subscription) {
+            this.subscription.unsubscribe();
+        }
     }
 }

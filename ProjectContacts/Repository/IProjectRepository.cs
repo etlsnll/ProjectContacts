@@ -18,5 +18,9 @@ namespace ProjectContacts.Repository
         ProjectDetails UpdateProject(int id, ProjectDetails project);
 
         IEnumerable<Contact> DeleteProjectParticipant(int id, int contactId);
+
+        IEnumerable<Contact> SearchContacts(int id, string srchTerm, int max);
+
+        IEnumerable<Contact> AddParticipant(int id, int contactId);
     }
 }

@@ -48,15 +48,13 @@ export class ProjectService {
             .map(response => response.json() as ProjectDetails);
     }
 
-    //searchTracks(title: string, artist: string, album: string) {
-    //    var search = new URLSearchParams();
-    //    search.set('title', title); // Add URL query param
-    //    search.set('artist', artist); // Add URL query param
-    //    search.set('album', album); // Add URL query param
-    //    return this.http.get(this.url + 'api/MusicLibrary/SearchTracks', { search: search })
-    //        .catch(this.handleErrorObservable)
-    //        .map(response => response.json() as Track[]);
-    //}
+    searchContacts(projectId: number, name: string) {
+        var search = new URLSearchParams();
+        search.set('srchTerm', name); // Add URL query param
+        return this.http.get(this.url + 'api/Project/' + projectId.toString() + '/SearchContacts', { search: search })
+            .catch(this.handleErrorObservable)
+            .map(response => response.json() as Contact[]);
+    }
 
     updateProject(project: ProjectDetails) {
         return this.http.put(this.url + 'api/Project/' + project.projectId.toString(), project)
@@ -64,11 +62,11 @@ export class ProjectService {
             .map(response => response.json() as ProjectDetails);
     }
 
-    //playListAddTrack<Track>(playlistId: number, t: Track) {
-    //    return this.http.put(this.url + 'api/MusicLibrary/PlayListAddTrack/' + playlistId.toString(), t)
-    //        .catch(this.handleErrorObservable)
-    //        .map(response => response.json() as Track);
-    //}
+    projectAddContact<Contact>(id: number, c: Contact) {
+        return this.http.put(this.url + 'api/Project/' + id.toString() + '/AddParticipant', c)
+            .catch(this.handleErrorObservable)
+            .map(response => response.json() as Contact[]);
+    }
 
     projectDeleteParticipant(projectId: number, c: Contact) {
         return this.http.delete(this.url + 'api/Project/' + projectId.toString() + '/DeleteParticipant/' + c.contactId)

@@ -40,3 +40,33 @@
         </tbody>
     </table>
 </div>
+
+<div class="srchCont">
+    <h4>Search contacts to add:</h4>
+    <form #TrackSearch="ngForm" class="prForm" name="prSearchForm">
+        <div class="prFormSrchFilter">
+            <label for="name">Contact name:</label><input type="text" [formControl]="searchName" class="form-control prSearch" id="name" name="name">
+        </div>
+        <button type="reset" class="btn btn-info" (click)="clearResults()">Reset</button>
+    </form>
+</div>
+<div class="srchResults">
+    <table class='table' *ngIf="contacts">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let contact of contacts" class="srchResultsRow">
+                <td hidden>{{contact.contactId}}</td>
+                <td>{{contact.name}}</td>
+                <td>{{contact.email}}</td>
+                <td>{{contact.phone}}</td>
+                <td><button title="Add to project" class="btn btn-success" (click)="add(contact)">Add</button></td>
+            </tr>
+        </tbody>
+    </table>
+</div>

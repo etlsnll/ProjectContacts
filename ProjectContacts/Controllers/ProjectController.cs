@@ -65,6 +65,18 @@ namespace ProjectContacts.Controllers
         }
 
         /// <summary>
+        /// GET: api/Project/2/SearchContacts
+        /// </summary>
+        /// <param name="id">ID of projectt</param>
+        /// <param name="srchTerm">search term</param>
+        /// <returns>List of project classes</returns>
+        [HttpGet("{id}/[action]")]
+        public IEnumerable<Contact> SearchContacts(int id, string srchTerm)
+        {
+            return _projectRepository.SearchContacts(id, srchTerm, 50);
+        }
+
+        /// <summary>
         /// DELETE: api/Project/Delete/4
         /// </summary>
         /// <param name="id">ID of project to delete</param>
@@ -144,6 +156,27 @@ namespace ProjectContacts.Controllers
             }
 
             _logger.LogInformation($"Project updated - ID: {id}", id);
+
+            return Ok(result);
+        }
+
+        /// <summary>
+        /// PUT: api/Project/4/AddParticipant - add Contact
+        /// </summary>
+        /// <param name="id">ID of project to update</param>
+        /// <param name="c">contact to add</param>
+        /// <returns>Updated list of participants</returns>
+        [HttpPut("{id}/[action]")]
+        public IActionResult AddParticipant(int id, [FromBody]Contact c)
+        {
+            var result = _projectRepository.AddParticipant(id, c.ContactId);
+            if (result == null)
+            {
+                _logger.LogError($"Project with ID {id} not found in DB", id);
+                return NotFound();
+            }
+
+            _logger.LogInformation($"Project updated - ID: {id}, Contact ID {c.ContactId} added.", id, c.ContactId);
 
             return Ok(result);
         }
