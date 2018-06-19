@@ -13,6 +13,7 @@ import { AddPlaylistComponent } from './components/add-playlist/add-playlist.com
 import { PlaylistsComponent } from './components/playlists/playlists.component';
 import { PlaylistComponent } from './components/playlist/playlist.component';
 import { ProjectsComponent } from './components/projects/projects.component';
+import { ProjectComponent } from './components/project/project.component';
 import { ContactsComponent } from './components/contacts/contacts.component';
 
 
@@ -27,6 +28,7 @@ import { ContactsComponent } from './components/contacts/contacts.component';
         PlaylistsComponent,
         PlaylistComponent,
         ProjectsComponent,
+        ProjectComponent,
         ContactsComponent
     ],
     imports: [
@@ -42,6 +44,7 @@ import { ContactsComponent } from './components/contacts/contacts.component';
             { path: 'playlists', component: PlaylistsComponent },
             { path: 'playlist/:id', component: PlaylistComponent },
             { path: 'projects', component: ProjectsComponent },
+            { path: 'project/:id', component: ProjectComponent },
             { path: 'contacts', component: ContactsComponent },
             { path: '**', redirectTo: 'home' }
         ])

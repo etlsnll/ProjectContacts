@@ -1,0 +1,42 @@
+﻿<div class="container">
+    <h1 class="prH1">Project:</h1>
+    <!-- Declare variable 'EditPlaylist' which is a reference to the ngForm directive -->
+    <!-- Note that Angular automatically creates and attaches an NgForm directive to the <form> tag, so no need to add it here -->
+    <form #EditProject="ngForm" (ngSubmit)="onSubmit(); EditProject.form.markAsPristine();" class="prForm" name="prNameForm" id="prNameForm">
+        <div class="form-group">
+            <input type="text" class="form-control prTitle" id="title" name="title"
+                   required
+                   [(ngModel)]="model.title" #title="ngModel"> <!-- Use ngModel directives bind this element to the model, and declare variable 'title' to reference it -->
+            <div [hidden]="title.valid || title.pristine" class="alert alert-danger">
+                Title is required
+            </div>
+        </div>
+        <button type="submit" class="btn btn-success prUpdate" [disabled]="!EditProject.form.valid || EditProject.form.pristine">Update</button>
+    </form>
+    <div [hidden]="!showConfirm">
+        <p class="confirmUpdateTitle">Project title successfully updated</p>
+    </div>
+</div>
+
+<div>
+    <h4>Participants</h4>
+    <p *ngIf="!model.participants[0]">No participants added to this project yet - use controls below to add</p>
+    <table class="prTracks">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let contact of model.participants" title="Album: {{contact.name}}">
+                <td hidden>{{contact.contactId}}</td>
+                <td>{{contact.name}}</td>
+                <td>{{contact.email}}</td>
+                <td>{{contact.phone}}</td>
+                <td><button (click)="remove(contact)" title="Remove"><strong>&nbsp;x&nbsp;</strong></button></td>
+            </tr>
+        </tbody>
+    </table>
+</div>

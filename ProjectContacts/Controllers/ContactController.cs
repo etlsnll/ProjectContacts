@@ -71,7 +71,7 @@ namespace ProjectContacts.Controllers
         }
 
 
-        // GET: api/Contact/Add
+        // POST: api/Contact/Add
         [HttpPost("[action]")]
         public int Add([FromBody]Contact contact)
         {

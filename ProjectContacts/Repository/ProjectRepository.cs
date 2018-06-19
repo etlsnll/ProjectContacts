@@ -37,12 +37,24 @@ namespace ProjectContacts.Repository
             if (pr != null)
             {
                 // Remove all contacts for the project first...
-                _dbContext.ProjectContacts.Where(x => x.ProjectId == id).ToList().ForEach(t => _dbContext.Remove(t));
+                _dbContext.ProjectContacts.Where(x => x.ProjectId == id).ToList().ForEach(pc => _dbContext.Remove(pc));
                 _dbContext.Remove(pr);
                 _dbContext.SaveChanges();
                 return true;
             }
             return false;
+        }
+
+        public IEnumerable<Contact> DeleteProjectParticipant(int id, int contactId)
+        {
+            var pc = _dbContext.ProjectContacts.FirstOrDefault(x => x.ProjectId == id && x.ContactId == contactId);
+            if (pc != null)
+            {
+                _dbContext.Remove(pc);
+                _dbContext.SaveChanges();
+                return _dbContext.ProjectContacts.Where(x => x.ProjectId == id).Select(x => x.Contact).ToList();
+            }
+            return null;
         }
 
         public int AddProject(Project project)
@@ -52,6 +64,42 @@ namespace ProjectContacts.Repository
             _dbContext.SaveChanges();
 
             return project.ProjectId;
+        }
+
+        public ProjectDetails GetProject(int id)
+        {
+            var pr = _dbContext.Projects.FirstOrDefault(x => x.ProjectId == id);
+            if (pr != null)
+                return LoadProject(id, pr);
+
+            return null;
+        }
+
+        public ProjectDetails UpdateProject(int id, ProjectDetails project)
+        {
+            var pr = _dbContext.Projects.FirstOrDefault(x => x.ProjectId == id);
+            if (pr != null)
+            {
+                pr.Title = project.Title;
+                _dbContext.SaveChanges();
+
+                return LoadProject(id, pr);
+            }
+            return null;
+        }
+
+        private ProjectDetails LoadProject(int id, Project pr)
+        {
+            return new ProjectDetails
+            {
+                ProjectId = pr.ProjectId,
+                Title = pr.Title,
+                Created = pr.Created,
+                Participants = _dbContext.ProjectContacts.Where(x => x.ProjectId == id)
+                                                         .Select(pc => pc.Contact)
+                                                         .OrderBy(c => c.Name)
+                                                         .ToList()
+            };
         }
     }
 }

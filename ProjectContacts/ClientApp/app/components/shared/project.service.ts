@@ -1,7 +1,8 @@
 ﻿import { Injectable, Inject } from '@angular/core';
 import { Headers, Http, URLSearchParams } from '@angular/http';
 import { Observable } from "rxjs";
-import { Project } from '../../project'; // Import the model
+import { Project, ProjectDetails } from '../../project'; // Import the model classes
+import { Contact } from '../../contact';
 
 const httpOptions = {
     headers: new Headers({
@@ -26,13 +27,6 @@ export class ProjectService {
         return Observable.throw(error.message || error);
     }
 
-    //addPlaylist(playlist: Playlist) {
-    //    return this.http.post(this.url + 'api/MusicLibrary/AddPlayList', playlist)
-    //        .catch(this.handleErrorObservable)
-    //        .map(response => response.json() as number);
-    //    //.subscribe(res => console.log(res)); // Note - must subscribe to the response even if not interested for POST to work                       
-    //}
-
     countProjects() {
         return this.http.get(this.url + 'api/Project/Count')
             .catch(this.handleErrorObservable)
@@ -48,12 +42,11 @@ export class ProjectService {
             .map(response => response.json() as Project[]);
     }
 
-    //getPlaylist(id: number) {
-    //    //console.log("getPlaylist() - Playlist id: " + id);
-    //    return this.http.get(this.url + 'api/MusicLibrary/Playlist/' + id.toString())
-    //        .catch(this.handleErrorObservable)
-    //        .map(response => response.json() as PlaylistDetails);
-    //}
+    getProject(id: number) {
+        return this.http.get(this.url + 'api/Project/' + id.toString())
+            .catch(this.handleErrorObservable)
+            .map(response => response.json() as ProjectDetails);
+    }
 
     //searchTracks(title: string, artist: string, album: string) {
     //    var search = new URLSearchParams();
@@ -65,11 +58,11 @@ export class ProjectService {
     //        .map(response => response.json() as Track[]);
     //}
 
-    //updatePlayListTitle(pl: PlaylistDetails) {
-    //    return this.http.put(this.url + 'api/MusicLibrary/UpdatePlayListTitle/' + pl.id.toString(), pl)
-    //        .catch(this.handleErrorObservable)
-    //        .map(response => response.json() as PlaylistDetails);
-    //}
+    updateProject(project: ProjectDetails) {
+        return this.http.put(this.url + 'api/Project/' + project.projectId.toString(), project)
+            .catch(this.handleErrorObservable)
+            .map(response => response.json() as ProjectDetails);
+    }
 
     //playListAddTrack<Track>(playlistId: number, t: Track) {
     //    return this.http.put(this.url + 'api/MusicLibrary/PlayListAddTrack/' + playlistId.toString(), t)
@@ -77,11 +70,11 @@ export class ProjectService {
     //        .map(response => response.json() as Track);
     //}
 
-    //playListDeleteTrack(playlistId: number, t: Track) {
-    //    return this.http.delete(this.url + 'api/MusicLibrary/PlayList/' + playlistId.toString() + '/DeleteTrack/' + t.trackId.toString())
-    //        .catch(this.handleErrorObservable)
-    //        .map(response => response.json() as Track[]);
-    //}
+    projectDeleteParticipant(projectId: number, c: Contact) {
+        return this.http.delete(this.url + 'api/Project/' + projectId.toString() + '/DeleteParticipant/' + c.contactId)
+            .catch(this.handleErrorObservable)
+            .map(response => response.json() as Contact[]);
+    }
 
     deleteProject(projectId: number) {
         return this.http.delete(this.url + 'api/Project/Delete/' + projectId.toString())
@@ -94,16 +87,4 @@ export class ProjectService {
             .catch(this.handleErrorObservable)
             .map(response => response.json() as number);                  
     }
-
-    //playListMoveTrackUp(playlistId: number, t: Track) {
-    //    return this.http.put(this.url + 'api/MusicLibrary/PlayListMoveTrackUp/' + playlistId.toString(), t)
-    //        .catch(this.handleErrorObservable)
-    //        .map(response => response.json() as Track[]);
-    //}
-
-    //playListMoveTrackDown(playlistId: number, t: Track) {
-    //    return this.http.put(this.url + 'api/MusicLibrary/PlayListMoveTrackDown/' + playlistId.toString(), t)
-    //        .catch(this.handleErrorObservable)
-    //        .map(response => response.json() as Track[]);
-    //}
 }

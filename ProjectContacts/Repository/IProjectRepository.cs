@@ -12,5 +12,11 @@ namespace ProjectContacts.Repository
         bool DeleteProject(int id);
 
         int AddProject(Project project);
+
+        ProjectDetails GetProject(int id);
+
+        ProjectDetails UpdateProject(int id, ProjectDetails project);
+
+        IEnumerable<Contact> DeleteProjectParticipant(int id, int contactId);
     }
 }

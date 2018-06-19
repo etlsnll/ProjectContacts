@@ -1,0 +1,39 @@
+﻿h1.prH1 {
+    display: inline;
+    vertical-align: sub;
+}
+input.prTitle {
+    max-width: 400px;
+    font-size: 2em;
+}
+
+form.prForm {
+    display: inline-flex;
+    margin-top: 20px;
+}
+
+button.prUpdate {
+    margin-left: 10px;
+    height: 34px;
+}
+p.confirmUpdateTitle {
+    color:red;
+}
+table.prTracks > tbody > tr > td, table.prTracks > thead > tr > th {
+    padding: 5px;
+}
+
+table.prTracks > tbody > tr:hover {
+    background-color: lightgray;
+}
+
+table.prTracks button {
+    height: 20px;
+    line-height: 9px;
+    margin-bottom: 1px;
+    color: #fff;
+    background-color: #5cb85c;
+    border-color: #4cae4c;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}

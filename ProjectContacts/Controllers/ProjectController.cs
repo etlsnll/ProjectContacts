@@ -50,11 +50,25 @@ namespace ProjectContacts.Controllers
             return _projectRepository.GetProjects(pageNum, pageSize);
         }
 
+        // GET: api/Project/3
+        [HttpGet("{id}")]
+        public IActionResult GetById(int id)
+        {
+            var result = _projectRepository.GetProject(id);
+            if (result == null)
+            {
+                _logger.LogError($"Project with ID {id} not found in DB", id);
+                return NotFound();
+            }
+
+            return Ok(result);
+        }
+
         /// <summary>
         /// DELETE: api/Project/Delete/4
         /// </summary>
         /// <param name="id">ID of project to delete</param>
-        /// <returns>True if successful, false if not found</returns>
+        /// <returns>True if successful, NotFound not found</returns>
         [HttpDelete("[action]/{id}")]
         public IActionResult Delete(int id)
         {
@@ -70,7 +84,28 @@ namespace ProjectContacts.Controllers
             return Ok(result);
         }
 
-        // GET: api/Project/Add
+        /// <summary>
+        /// DELETE: api/Project/7/DeleteParticipant/96
+        /// </summary>
+        /// <param name="id">ID of project</param>
+        /// <param name="contactId">ID of project to delete</param>
+        /// <returns>True if successful, NotFound not found</returns>
+        [HttpDelete("{id}/[action]/{contactId}")]
+        public IActionResult DeleteParticipant(int id, int contactId)
+        {
+            var result = _projectRepository.DeleteProjectParticipant(id, contactId);
+            if (result == null)
+            {
+                _logger.LogError($"Project with ID {id} and/or contact with ID {contactId} not found in DB", id, contactId);
+                return NotFound();
+            }
+
+            _logger.LogInformation($"Project participant ID {contactId} deleted for project ID: {id}", contactId, id);
+
+            return Ok(result);
+        }
+
+        // POST: api/Project/Add
         [HttpPost("[action]")]
         public int Add([FromBody]Project project)
         {
@@ -88,6 +123,29 @@ namespace ProjectContacts.Controllers
                 _logger.LogError(e, "Error adding project: " + project.Title);
                 return 0;
             }
+        }
+
+        /// <summary>
+        /// PUT: api/Project/4 - update basic properties of project
+        /// </summary>
+        /// <param name="id">ID of project to update</param>
+        /// <returns>Updated object if successful, NotFound if not found</returns>
+        [HttpPut("{id}")]
+        public IActionResult UpdateById(int id, [FromBody]ProjectDetails project)
+        {
+            if (String.IsNullOrWhiteSpace(project.Title))
+                throw new ArgumentException("Project must have a title", "Title");
+
+            var result = _projectRepository.UpdateProject(id, project);
+            if (result == null)
+            {
+                _logger.LogError($"Project with ID {id} not found in DB", id);
+                return NotFound();
+            }
+
+            _logger.LogInformation($"Project updated - ID: {id}", id);
+
+            return Ok(result);
         }
     }
 }
