@@ -89,6 +89,13 @@ export class ProjectService {
             .map(response => response.json() as boolean);
     }
 
+    addProject(project: Project) {
+        return this.http.post(this.url + 'api/Project/Add', project)
+            .catch(this.handleErrorObservable)
+            .map(response => response.json() as number);
+        //.subscribe(res => console.log(res)); // Note - must subscribe to the response even if not interested for POST to work                       
+    }
+
     //playListMoveTrackUp(playlistId: number, t: Track) {
     //    return this.http.put(this.url + 'api/MusicLibrary/PlayListMoveTrackUp/' + playlistId.toString(), t)
     //        .catch(this.handleErrorObservable)

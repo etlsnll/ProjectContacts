@@ -30,7 +30,8 @@ namespace ProjectContacts.Migrations
                 {
                     ProjectId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Title = table.Column<string>(nullable: true)
+                    Title = table.Column<string>(nullable: true),
+                    Created = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
                 {

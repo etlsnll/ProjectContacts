@@ -43,6 +43,8 @@ namespace ProjectContacts.Migrations
 
                     b.Property<string>("Title");
 
+                    b.Property<DateTime>("Created");
+
                     b.HasKey("ProjectId");
 
                     b.ToTable("Projects");

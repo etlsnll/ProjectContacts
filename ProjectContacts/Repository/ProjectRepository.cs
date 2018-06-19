@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using ProjectContacts.Models;
 
@@ -43,5 +44,14 @@ namespace ProjectContacts.Repository
             }
             return false;
         }
+
+        public int AddProject(Project project)
+        {
+            _dbContext.Projects.Add(project);
+            _dbContext.SaveChanges();
+
+            return project.ProjectId;
+        }
+        //Created = DateTime.Now; // Should really use UtcNow here and adjust to system timezone after read from DB if had more time
     }
 }

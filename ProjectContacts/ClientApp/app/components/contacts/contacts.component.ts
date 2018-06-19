@@ -13,7 +13,7 @@ export class ContactsComponent implements AfterViewInit {
 
     public contacts: Contact[] = [];
     public totalContacts: number = 0;
-    public p: number = 1;
+    public currentPage: number = 1;
     public pageSize: number = 10;
     public pageSizes: number[] = [10, 20, 30, 40, 50];
     public totalPages: number = 0;
@@ -30,12 +30,12 @@ export class ContactsComponent implements AfterViewInit {
     }
 
     public newPage(page: number) {
-        this.p = page;
+        this.currentPage = page;
         this.getContacts();
     }
 
     public changePageSize(size: number) {
-        this.p = 1; // reset to first page
+        this.currentPage = 1; // reset to first page
         this.pageSize = size;
         this.getContacts();
     }
@@ -49,7 +49,7 @@ export class ContactsComponent implements AfterViewInit {
             });
 
         //Get current page of results:
-        this.contactService.getContacts(this.p, this.pageSize)
+        this.contactService.getContacts(this.currentPage, this.pageSize)
             .subscribe(data => this.contacts = data);
     }
 

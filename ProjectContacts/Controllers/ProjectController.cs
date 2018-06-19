@@ -65,7 +65,29 @@ namespace ProjectContacts.Controllers
                 return NotFound();
             }
 
+            _logger.LogInformation($"Project deleted - ID: {id}", id);
+
             return Ok(result);
+        }
+
+        // GET: api/Project/Add
+        [HttpPost("[action]")]
+        public int Add([FromBody]Project project)
+        {
+            if (String.IsNullOrWhiteSpace(project.Title))
+                throw new ArgumentException("Projet must have a title", "Title");
+
+            try
+            {
+                var id = _projectRepository.AddProject(project);
+                _logger.LogInformation("Project added: {0}, ID: {1}", project.Title, project.ProjectId);
+                return id;
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Error adding project: " + project.Title);
+                return 0;
+            }
         }
     }
 }

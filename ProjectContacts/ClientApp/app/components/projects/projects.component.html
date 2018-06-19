@@ -1,18 +1,40 @@
-﻿<h1>All Projects</h1>
+﻿<h1>Projects</h1>
 
 <p *ngIf="!projects"><em>Loading...</em></p>
+
+<div class="addProjectContainer">
+    <form #AddProject="ngForm" (ngSubmit)="onSubmit(); AddProject.reset()">
+        <!-- Declare variable 'AddProject' which is a reference to the ngForm directive -->
+        <!-- Note that Angular automatically creates and attaches an NgForm directive to the <form> tag, so no need to add it here -->
+        <div class="form-group">
+            <label for="title">Title</label>
+            <input type="text" class="form-control" id="title" name="title"
+                   required
+                   [(ngModel)]="model.title" #title="ngModel"> <!-- Use ngModel directives bind this element to the model, and declare variable 'title' to reference it -->
+            <div [hidden]="title.valid || title.pristine" class="alert alert-danger">
+                Title is required
+            </div>
+        </div>
+        <button type="submit" class="btn btn-success" [disabled]="!AddProject.form.valid">Add</button>
+    </form>
+</div>
+<div [hidden]="!showConfirm">
+    <p class="confirmAddProject">Project successfully added</p>
+</div>
 
 <div class="projectsContainer">
     <table class='table' *ngIf="projects">
         <thead>
             <tr>
                 <th>Title</th>
+                <th>Created</th>
             </tr>
         </thead>
         <tbody>
             <tr *ngFor="let pr of projects" class="resultsRow">
                 <td hidden>{{ pr.projectId }}</td>
                 <td class="prTitle"><a href="/project/{{pr.projectId}}">{{ pr.title }}</a></td>
+                <td>{{pr.created| date: 'dd/MM/yyyy'}}</td>
                 <td><button class="delete btn btn-success" title="Delete" (click)="delete(pr)">Delete</button></td>
             </tr>
         </tbody>
@@ -20,7 +42,7 @@
         <caption>Total projects: {{totalProjects}}</caption>
 
     </table>
-    <app-pager [page]="p"
+    <app-pager [page]="currentPage"
                [totalPages]="totalPages"
                [pageSize]="pageSize"
                [pageSizes]="pageSizes"

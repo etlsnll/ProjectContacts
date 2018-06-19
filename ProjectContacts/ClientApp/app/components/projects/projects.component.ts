@@ -1,5 +1,7 @@
 ﻿import { Component, Inject, AfterViewInit } from '@angular/core';
 import { ProjectService } from '../shared/project.service';
+import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Subscription';
 import { Project } from '../../project'; // Import the model
 
 @Component({
@@ -11,14 +13,20 @@ import { Project } from '../../project'; // Import the model
 /** projects component*/
 export class ProjectsComponent implements AfterViewInit {
 
+    model = new Project(0, "", new Date());
+
     public projects: Project[] = [];
     public totalProjects: number = 0;
-    public p: number = 1;
+    public currentPage: number = 1; // Current page
     public pageSize: number = 10;
     public pageSizes: number[] = [10, 20, 30, 40, 50];
     public totalPages: number = 0;
     private projectService: ProjectService;
-    private deleteIndex: number = 0;
+
+    private timer: Observable<any> = new Observable();
+    private subscription: Subscription = new Subscription();
+    public showConfirm: boolean = false;
+    private confirmTimeMs: number = 3000;
 
     /** projects ctor */
     constructor(projectService: ProjectService) {
@@ -30,12 +38,12 @@ export class ProjectsComponent implements AfterViewInit {
     }
 
     public newPage(page: number) {
-        this.p = page;
+        this.currentPage = page;
         this.getProjects();
     }
 
     public changePageSize(size: number) {
-        this.p = 1; // reset to first page
+        this.currentPage = 1; // reset to first page
         this.pageSize = size;
         this.getProjects();
     }
@@ -49,15 +57,38 @@ export class ProjectsComponent implements AfterViewInit {
             });
 
         //Get current page of results:
-        this.projectService.getProjects(this.p, this.pageSize)
+        this.projectService.getProjects(this.currentPage, this.pageSize)
             .subscribe(data => this.projects = data);
     }
 
     public delete(project: Project): void {
         this.projectService.deleteProject(project.projectId)
-            .subscribe(data => {
-                if (data) // Refresh current page:
+            .subscribe(success => {
+                if (success) // Refresh current page:
                     this.getProjects();
             });
+    }
+
+    // Method to handle the add project form submission
+    onSubmit() {
+        this.projectService.addProject(this.model)
+            .subscribe(newId => {
+                if (newId > 0) { // If successful, refresh current page:
+                    this.getProjects();
+                    // Display confirmation message:
+                    this.setConfirmTimer();
+                }
+            });
+    }
+
+    public setConfirmTimer() {
+
+        this.showConfirm = true;
+
+        this.timer = Observable.timer(this.confirmTimeMs); // [milliseconds]
+        this.subscription = this.timer.subscribe(() => {
+            // Hide element from view after timeout
+            this.showConfirm = false;
+        });
     }
 }
