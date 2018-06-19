@@ -24,13 +24,9 @@ namespace ProjectContacts
             services.AddMvc();
 
             services.AddDbContext<ProjectContactsContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ProjectContactsDB")));
-
-            services.AddDbContext<MusicLibraryContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MusicLibraryDB")));
-
+            
             services.AddScoped<IProjectRepository, ProjectRepository>();
             services.AddScoped<IContactRepository, ContactRepository>();
-
-            services.AddScoped<IMusicRepository, MusicRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
